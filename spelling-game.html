@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>เกมสะกดเลข 0–10</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Mali:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg1:#FFF6E9; --bg2:#FFE2D1; --bg3:#FCE1F0;
+    --ink:#4A3B2A;
+    --tileTh:#FFC93C; --tileThEdge:#E0A100;
+    --tileEn:#5DC1B9; --tileEnEdge:#379a91;
+    --slot:#FFFFFF; --slotEdge:#E7D6BE;
+    --accent:#FF8A5B; --accentEdge:#E0673B;
+    --blue:#118AB2; --blueEdge:#0c6b8a;
+    --green:#06C285; --greenEdge:#04996a;
+    --font-th:'Mali',cursive;
+    --font-display:'Fredoka','Mali',sans-serif;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;margin:0;}
+  body{
+    font-family:var(--font-th);
+    color:var(--ink);
+    background:
+      radial-gradient(circle at 15% 20%, rgba(255,255,255,.7), transparent 40%),
+      radial-gradient(circle at 85% 15%, rgba(255,220,150,.5), transparent 45%),
+      linear-gradient(160deg,var(--bg1),var(--bg2) 55%,var(--bg3));
+    background-attachment:fixed;
+    min-height:100%;
+    overflow-x:hidden;
+    display:flex; flex-direction:column; align-items:center;
+    padding:14px;
+  }
+  /* floating deco bubbles */
+  .deco{position:fixed;border-radius:50%;opacity:.35;z-index:0;pointer-events:none;
+    background:radial-gradient(circle at 30% 30%, #fff, transparent 70%);}
+  .deco.d1{width:120px;height:120px;top:8%;left:-30px;background:#FFD8A8;}
+  .deco.d2{width:90px;height:90px;bottom:12%;right:-20px;background:#B5EAD7;}
+  .deco.d3{width:60px;height:60px;top:40%;right:8%;background:#FFB7C5;}
+
+  .wrap{width:100%;max-width:680px;position:relative;z-index:1;}
+
+  /* ---------- top bar ---------- */
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;}
+  .stars{font-family:var(--font-display);font-size:1.3rem;font-weight:700;color:#E08600;
+    background:#fff;border-radius:999px;padding:6px 16px;box-shadow:0 4px 0 #ecd9b8;}
+  .progress{flex:1;height:16px;background:#fff;border-radius:999px;overflow:hidden;box-shadow:inset 0 2px 4px rgba(0,0,0,.08);}
+  .progress>div{height:100%;width:0;background:linear-gradient(90deg,#FFB347,#FF8A5B);
+    border-radius:999px;transition:width .4s ease;}
+  .icon-btn{border:none;background:#fff;border-radius:50%;width:44px;height:44px;font-size:1.2rem;
+    cursor:pointer;box-shadow:0 4px 0 #e3d3b6;color:var(--ink);}
+  .icon-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #e3d3b6;}
+
+  /* ---------- cards ---------- */
+  .card{background:rgba(255,255,255,.55);backdrop-filter:blur(4px);border-radius:28px;
+    padding:22px 18px 26px;box-shadow:0 12px 30px rgba(180,120,60,.18);}
+
+  /* ---------- start screen ---------- */
+  #start{text-align:center;}
+  #start h1{font-family:var(--font-display);font-size:2.4rem;margin:.2em 0 .1em;color:var(--accent);
+    text-shadow:0 3px 0 #ffd9c4;}
+  #start p{font-size:1.1rem;margin:.2em 0 1.2em;color:#7a6450;}
+  .modepills{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:22px;}
+  .pill{border:none;font-family:var(--font-th);font-size:1.05rem;font-weight:600;padding:10px 18px;
+    border-radius:999px;cursor:pointer;background:#fff;color:#9a8267;box-shadow:0 4px 0 #ecd9b8;}
+  .pill.active{background:var(--blue);color:#fff;box-shadow:0 4px 0 var(--blueEdge);}
+  .big-btn{font-family:var(--font-display);font-size:1.6rem;font-weight:700;color:#fff;border:none;
+    background:var(--accent);padding:16px 42px;border-radius:22px;cursor:pointer;
+    box-shadow:0 7px 0 var(--accentEdge);transition:transform .08s;}
+  .big-btn:active{transform:translateY(5px);box-shadow:0 2px 0 var(--accentEdge);}
+  .hello-num{font-family:var(--font-display);font-size:3.4rem;letter-spacing:2px;color:var(--blue);
+    margin-bottom:6px;}
+
+  /* ---------- game ---------- */
+  #game{display:none;}
+  .prompt{display:flex;flex-direction:column;align-items:center;gap:6px;margin-bottom:6px;}
+  .langlabel{font-size:1.05rem;font-weight:600;color:#fff;padding:5px 16px;border-radius:999px;}
+  .langlabel.th{background:var(--tileThEdge);}
+  .langlabel.en{background:var(--tileEnEdge);}
+  .digit-badge{width:108px;height:108px;border-radius:50%;background:var(--blue);
+    display:flex;align-items:center;justify-content:center;color:#fff;
+    font-family:var(--font-display);font-size:4rem;font-weight:700;
+    box-shadow:0 8px 0 var(--blueEdge), inset 0 -6px 12px rgba(0,0,0,.12);}
+  .hint-line{font-size:.98rem;color:#8a7560;margin:8px 0 2px;}
+
+  .slots{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:14px 0 6px;min-height:70px;}
+  .slot{width:58px;height:64px;border:3px dashed var(--slotEdge);border-radius:16px;
+    background:var(--slot);display:flex;align-items:center;justify-content:center;
+    transition:border-color .15s, background .15s, transform .12s;}
+  .slot.over{border-color:var(--green);background:#eafff6;transform:scale(1.06);}
+  .slot.wrong{animation:shake .4s;border-color:#ff6b6b;}
+  @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+
+  .preview-box{text-align:center;margin:4px 0 10px;min-height:54px;}
+  .preview-label{font-size:.9rem;color:#9a8267;}
+  .preview-word{font-size:2.2rem;font-weight:700;letter-spacing:1px;line-height:1.1;color:var(--ink);}
+  .preview-word.en{font-family:var(--font-display);}
+
+  .tray{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;min-height:70px;
+    margin-top:10px;padding-top:12px;border-top:2px dashed #efddc4;}
+
+  .tile{width:58px;height:64px;border-radius:16px;display:flex;align-items:center;justify-content:center;
+    font-size:2rem;font-weight:700;cursor:grab;user-select:none;touch-action:none;
+    color:var(--ink);position:relative;transition:box-shadow .1s,transform .1s;}
+  .tile.th{background:var(--tileTh);box-shadow:0 6px 0 var(--tileThEdge);}
+  .tile.en{background:var(--tileEn);box-shadow:0 6px 0 var(--tileEnEdge);font-family:var(--font-display);color:#0c4a46;}
+  .tile.dragging{box-shadow:0 14px 22px rgba(0,0,0,.28);transform:scale(1.12) rotate(-3deg);
+    z-index:9999;cursor:grabbing;}
+  .slot .tile{box-shadow:0 4px 0 rgba(0,0,0,.12);}
+  .tile.locked{cursor:default;}
+
+  .toolbar{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap;}
+  .tool{font-family:var(--font-th);font-size:1.05rem;font-weight:600;border:none;cursor:pointer;
+    padding:11px 20px;border-radius:16px;color:#fff;}
+  .tool.sound{background:var(--blue);box-shadow:0 5px 0 var(--blueEdge);}
+  .tool.hint{background:#FFB347;box-shadow:0 5px 0 #e08f1e;color:#5a3d00;}
+  .tool:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(0,0,0,.2);}
+
+  /* toast / success */
+  .toast{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(.6);
+    background:#fff;border-radius:28px;padding:26px 38px;text-align:center;z-index:10000;
+    box-shadow:0 18px 50px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:.25s;}
+  .toast.show{opacity:1;transform:translate(-50%,-50%) scale(1);}
+  .toast .emoji{font-size:3rem;}
+  .toast .msg{font-size:1.6rem;font-weight:700;color:var(--green);margin-top:4px;}
+  .toast .ans{font-size:1.3rem;color:var(--ink);margin-top:2px;}
+
+  /* end screen */
+  #end{display:none;text-align:center;}
+  #end .emoji{font-size:4rem;}
+  #end h2{font-family:var(--font-display);font-size:2.2rem;color:var(--accent);margin:.2em 0;}
+  #end .score{font-family:var(--font-display);font-size:1.5rem;color:#E08600;margin-bottom:18px;}
+
+  canvas#confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9998;}
+</style>
+</head>
+<body>
+<div class="deco d1"></div><div class="deco d2"></div><div class="deco d3"></div>
+<canvas id="confetti"></canvas>
+
+<div class="wrap">
+  <!-- START -->
+  <div id="start" class="card">
+    <div class="hello-num">0 1 2 3 4 5 6 7 8 9 10</div>
+    <h1>เกมสะกดเลข</h1>
+    <p>ลากตัวอักษรมาเรียงให้ถูก แล้วมาดูกันว่าเลขเขียนยังไง! ✨</p>
+    <div class="modepills" id="modepills">
+      <button class="pill" data-mode="th">ภาษาไทย 🇹🇭</button>
+      <button class="pill" data-mode="en">English 🔤</button>
+      <button class="pill active" data-mode="both">ทั้งสองภาษา 🌟</button>
+    </div>
+    <button class="big-btn" id="startBtn">เริ่มเล่น ▶</button>
+  </div>
+
+  <!-- GAME -->
+  <div id="game">
+    <div class="topbar">
+      <button class="icon-btn" id="homeBtn" title="กลับหน้าแรก">🏠</button>
+      <div class="progress"><div id="progressFill"></div></div>
+      <div class="stars" id="starCount">⭐ 0</div>
+    </div>
+    <div class="card">
+      <div class="prompt">
+        <div class="langlabel th" id="langLabel">สะกดเป็นภาษาไทย</div>
+        <div class="digit-badge" id="digitBadge">0</div>
+      </div>
+      <div class="hint-line" id="hintLine">แตะหรือลากตัวอักษรไปวางในช่อง 👇</div>
+      <div class="slots" id="slots"></div>
+      <div class="preview-box">
+        <div class="preview-label" id="previewLabel">คำของเรา</div>
+        <div class="preview-word" id="preview">…</div>
+      </div>
+      <div class="tray" id="tray"></div>
+      <div class="toolbar">
+        <button class="tool sound" id="soundBtn">🔊 ฟังเสียง</button>
+        <button class="tool hint" id="hintBtn">💡 ใบ้</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- END -->
+  <div id="end" class="card">
+    <div class="emoji">🏆</div>
+    <h2 id="endTitle">เก่งมาก!</h2>
+    <div class="score" id="endScore"></div>
+    <button class="big-btn" id="againBtn">เล่นอีกครั้ง 🔁</button>
+  </div>
+</div>
+
+<div class="toast" id="toast">
+  <div class="emoji" id="toastEmoji">🎉</div>
+  <div class="msg" id="toastMsg">ถูกต้อง!</div>
+  <div class="ans" id="toastAns"></div>
+</div>
+
+<script>
+/* ============ DATA ============ */
+const WORDS = {
+  0:{th:["ศ","ู","น","ย","์"], en:["z","e","r","o"]},
+  1:{th:["ห","น","ึ","่","ง"], en:["o","n","e"]},
+  2:{th:["ส","อ","ง"],        en:["t","w","o"]},
+  3:{th:["ส","า","ม"],        en:["t","h","r","e","e"]},
+  4:{th:["ส","ี","่"],        en:["f","o","u","r"]},
+  5:{th:["ห","้","า"],        en:["f","i","v","e"]},
+  6:{th:["ห","ก"],            en:["s","i","x"]},
+  7:{th:["เ","จ","็","ด"],    en:["s","e","v","e","n"]},
+  8:{th:["แ","ป","ด"],        en:["e","i","g","h","t"]},
+  9:{th:["เ","ก","้","า"],    en:["n","i","n","e"]},
+  10:{th:["ส","ิ","บ"],       en:["t","e","n"]},
+};
+const FULL = {th:{},en:{}};
+for(const n in WORDS){FULL.th[n]=WORDS[n].th.join("");FULL.en[n]=WORDS[n].en.join("");}
+
+/* Thai combining marks -> show on dotted circle ◌ (U+25CC) */
+function isCombining(ch){return /[\u0E31\u0E34-\u0E3A\u0E47-\u0E4E]/.test(ch);}
+function displayOf(ch){return isCombining(ch)?("\u25CC"+ch):ch;}
+
+/* ============ STATE ============ */
+let mode="both";
+let queue=[], qi=0, stars=0, total=0;
+let target=[], curLang="th", curNum=0, locked=false;
+
+/* ============ UI LANGUAGE ============ */
+const UI={
+  th:{ hint:"แตะหรือลากตัวอักษรไปวางในช่อง 👇", word:"คำของเรา",
+       sound:"🔊 ฟังเสียง", hintBtn:"💡 ใบ้",
+       correct:"ถูกต้อง!", again:"เล่นอีกครั้ง 🔁",
+       perfect:"สุดยอดไปเลย!", great:"เก่งมาก!",
+       score:(s,t)=>"ได้ "+s+" จาก "+t+" ดาว ⭐" },
+  en:{ hint:"Tap or drag the letters into the boxes 👇", word:"Our word",
+       sound:"🔊 Listen", hintBtn:"💡 Hint",
+       correct:"Correct!", again:"Play again 🔁",
+       perfect:"Awesome!", great:"Great job!",
+       score:(s,t)=>"You got "+s+" of "+t+" stars ⭐" }
+};
+let uiLang="th";
+function applyUILang(){
+  const u=UI[uiLang];
+  $("hintLine").textContent=u.hint;
+  $("previewLabel").textContent=u.word;
+  $("soundBtn").textContent=u.sound;
+  $("hintBtn").textContent=u.hintBtn;
+  $("againBtn").textContent=u.again;
+}
+
+const $=id=>document.getElementById(id);
+const startScreen=$("start"), gameScreen=$("game"), endScreen=$("end");
+
+/* ---------- mode pills ---------- */
+$("modepills").addEventListener("click",e=>{
+  const b=e.target.closest(".pill"); if(!b)return;
+  document.querySelectorAll(".pill").forEach(p=>p.classList.remove("active"));
+  b.classList.add("active"); mode=b.dataset.mode;
+});
+
+/* ---------- shuffle ---------- */
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function buildQueue(){
+  let list=[];
+  for(let n=0;n<=10;n++){
+    if(mode==="th"||mode==="both")list.push({n,lang:"th"});
+    if(mode==="en"||mode==="both")list.push({n,lang:"en"});
+  }
+  return shuffle(list);
+}
+
+/* ============ START ============ */
+$("startBtn").onclick=()=>{
+  uiLang = mode==="en" ? "en" : "th";   // English mode -> UI ทั้งหมดเป็นอังกฤษ
+  applyUILang();
+  queue=buildQueue(); qi=0; stars=0; total=queue.length;
+  startScreen.style.display="none"; endScreen.style.display="none";
+  gameScreen.style.display="block";
+  loadRound();
+};
+$("againBtn").onclick=$("startBtn").onclick;
+$("homeBtn").onclick=()=>{gameScreen.style.display="none";endScreen.style.display="none";startScreen.style.display="block";};
+
+/* ============ ROUND ============ */
+function loadRound(){
+  if(qi>=queue.length){return finish();}
+  locked=false;
+  const r=queue[qi];
+  curNum=r.n; curLang=r.lang; target=WORDS[r.n][r.lang];
+
+  $("digitBadge").textContent=r.n;
+  const ll=$("langLabel");
+  ll.className="langlabel "+(r.lang==="th"?"th":"en");
+  ll.textContent=r.lang==="th"?"สะกดเป็นภาษาไทย":"Spell in English";
+
+  // ฟังเสียงเฉพาะภาษาอังกฤษ (เสียงไทยจากเบราว์เซอร์มักอ่านผิด)
+  $("soundBtn").style.display = r.lang==="en" ? "" : "none";
+
+  // slots
+  const slotsEl=$("slots"); slotsEl.innerHTML="";
+  for(let i=0;i<target.length;i++){
+    const s=document.createElement("div"); s.className="slot"; s.dataset.idx=i;
+    slotsEl.appendChild(s);
+  }
+  // tray (shuffled, ensure not already solved)
+  let order=shuffle(target);
+  if(target.length>1){let g=0;while(order.join("")===target.join("")&&g<20){order=shuffle(target);g++;}}
+  const trayEl=$("tray"); trayEl.innerHTML="";
+  order.forEach((ch,i)=>{ trayEl.appendChild(makeTile(ch,i)); });
+
+  updatePreview();
+  updateTop();
+}
+
+function makeTile(ch,i){
+  const t=document.createElement("div");
+  t.className="tile "+(curLang==="th"?"th":"en");
+  t.dataset.char=ch;
+  t.dataset.uid=i+"_"+Math.random().toString(36).slice(2,6);
+  t.textContent=displayOf(ch);
+  attachDrag(t);
+  return t;
+}
+
+function updateTop(){
+  $("starCount").textContent="⭐ "+stars;
+  $("progressFill").style.width=Math.round((qi/total)*100)+"%";
+}
+
+/* ============ PREVIEW ============ */
+function updatePreview(){
+  const slots=[...$("slots").children];
+  let w="";
+  slots.forEach(s=>{const tl=s.querySelector(".tile");if(tl)w+=tl.dataset.char;});
+  const p=$("preview");
+  p.className="preview-word"+(curLang==="en"?" en":"");
+  p.textContent=w||"…";
+}
+
+/* ============ DRAG & TAP ============ */
+let draggingTile=null;
+// ตรวจว่ามีอะไรอยู่ใต้จุดนิ้ว/เมาส์ โดยซ่อน tile ที่ลากชั่วขณะ
+// (แทนการตั้ง pointer-events:none ซึ่งทำให้ touch ใช้ไม่ได้ เพราะ implicit pointer capture)
+function pick(x,y){
+  let prev;
+  if(draggingTile){ prev=draggingTile.style.visibility; draggingTile.style.visibility="hidden"; }
+  const el=document.elementFromPoint(x,y);
+  if(draggingTile) draggingTile.style.visibility=prev||"";
+  return el;
+}
+function attachDrag(tile){
+  tile.addEventListener("pointerdown",e=>{
+    if(locked||tile.classList.contains("locked"))return;
+    e.preventDefault();
+    const startX=e.clientX, startY=e.clientY;
+    let moved=false;
+    const origin=tile.parentElement;
+    const r=tile.getBoundingClientRect();
+    const offX=e.clientX-r.left, offY=e.clientY-r.top;
+
+    draggingTile=tile;
+    tile.classList.add("dragging");
+    tile.style.position="fixed";
+    tile.style.width=r.width+"px"; tile.style.height=r.height+"px";
+    document.body.appendChild(tile);
+    moveTo(e.clientX,e.clientY);
+    function moveTo(x,y){tile.style.left=(x-offX)+"px";tile.style.top=(y-offY)+"px";}
+
+    function onMove(ev){
+      ev.preventDefault();
+      if(Math.abs(ev.clientX-startX)>8||Math.abs(ev.clientY-startY)>8)moved=true;
+      moveTo(ev.clientX,ev.clientY);
+      highlight(ev.clientX,ev.clientY);
+    }
+    function onUp(ev){
+      window.removeEventListener("pointermove",onMove);
+      window.removeEventListener("pointerup",onUp);
+      window.removeEventListener("pointercancel",onUp);
+      clearHighlight();
+      resetStyle(tile);
+      if(!moved){ tapMove(tile,origin); }
+      else { dropAt(tile,ev.clientX,ev.clientY,origin); }
+      draggingTile=null;
+      onChange();
+    }
+    // ฟังที่ window: บน touch มี implicit capture ที่ tile แล้ว event จะ bubble มาถึง window เอง
+    window.addEventListener("pointermove",onMove,{passive:false});
+    window.addEventListener("pointerup",onUp);
+    window.addEventListener("pointercancel",onUp);
+  });
+}
+
+function resetStyle(t){
+  t.classList.remove("dragging");
+  t.style.position=""; t.style.left=""; t.style.top="";
+  t.style.width=""; t.style.height=""; t.style.pointerEvents=""; t.style.visibility="";
+}
+function highlight(x,y){
+  clearHighlight();
+  const el=pick(x,y); if(!el)return;
+  const s=el.closest(".slot"); if(s&&!s.querySelector(".tile"))s.classList.add("over");
+}
+function clearHighlight(){document.querySelectorAll(".slot.over").forEach(s=>s.classList.remove("over"));}
+
+function dropAt(tile,x,y,origin){
+  const el=pick(x,y);
+  const slot=el&&el.closest(".slot");
+  const tray=el&&el.closest("#tray");
+  if(slot){
+    const occ=slot.querySelector(".tile");
+    if(occ&&occ!==tile){ $("tray").appendChild(occ); }
+    slot.appendChild(tile);
+  } else if(tray){
+    $("tray").appendChild(tile);
+  } else {
+    origin.appendChild(tile); // back where it came from
+  }
+}
+function tapMove(tile,origin){
+  if(origin.classList.contains("slot")){
+    $("tray").appendChild(tile);            // tap a placed tile -> back to tray
+  } else {
+    const empty=[...$("slots").children].find(s=>!s.querySelector(".tile"));
+    if(empty) empty.appendChild(tile);      // tap a tray tile -> first empty slot
+    else origin.appendChild(tile);
+  }
+}
+
+/* ============ CHECK ============ */
+function onChange(){
+  updatePreview();
+  const slots=[...$("slots").children];
+  if(slots.some(s=>!s.querySelector(".tile")))return; // not full yet
+  const guess=slots.map(s=>s.querySelector(".tile").dataset.char);
+  if(guess.join("")===target.join("")) success();
+  else wrongAnim(slots);
+}
+
+function wrongAnim(slots){
+  playError();
+  slots.forEach(s=>{s.classList.add("wrong");});
+  setTimeout(()=>slots.forEach(s=>s.classList.remove("wrong")),450);
+}
+
+function success(){
+  locked=true;
+  document.querySelectorAll("#slots .tile,#tray .tile").forEach(t=>t.classList.add("locked"));
+  stars++; updateTop();
+  playSuccess(); fireConfetti();
+  if(curLang==="en") speakWord();
+  const full=FULL[curLang][curNum];
+  showToast("🎉",UI[uiLang].correct,curNum+" = "+full);
+  setTimeout(()=>{ hideToast(); qi++; loadRound(); },1700);
+}
+
+/* ============ HINT ============ */
+$("hintBtn").onclick=()=>{
+  if(locked)return;
+  const slots=[...$("slots").children];
+  for(let i=0;i<target.length;i++){
+    const cur=slots[i].querySelector(".tile");
+    if(cur&&cur.dataset.char===target[i])continue;
+    // need target[i] here. find a tile with that char not already correctly placed
+    let cand=[...$("tray").querySelectorAll(".tile")].find(t=>t.dataset.char===target[i]);
+    if(!cand){
+      // borrow from a wrong slot
+      for(let j=0;j<slots.length;j++){
+        const tj=slots[j].querySelector(".tile");
+        if(tj&&tj.dataset.char===target[i]&&!(j<target.length&&target[j]===tj.dataset.char&&j!==i)){cand=tj;break;}
+      }
+    }
+    if(!cand)return;
+    if(cur)$("tray").appendChild(cur);   // eject wrong tile here
+    slots[i].appendChild(cand);
+    onChange();
+    return;
+  }
+};
+
+/* ============ AUDIO ============ */
+let actx;
+function ac(){actx=actx||new (window.AudioContext||window.webkitAudioContext)();return actx;}
+function tone(freq,start,dur,type="sine",vol=.18){
+  const c=ac(),o=c.createOscillator(),g=c.createGain();
+  o.type=type;o.frequency.value=freq;o.connect(g);g.connect(c.destination);
+  const t=c.currentTime+start;
+  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+.02);
+  g.gain.exponentialRampToValueAtTime(.001,t+dur);
+  o.start(t);o.stop(t+dur+.02);
+}
+function playSuccess(){try{[523,659,784,1046].forEach((f,i)=>tone(f,i*.09,.22,"triangle",.2));}catch(e){}}
+function playError(){try{tone(220,0,.18,"sine",.15);tone(180,.1,.2,"sine",.15);}catch(e){}}
+
+function speakWord(){
+  if(!("speechSynthesis"in window))return;
+  try{
+    const u=new SpeechSynthesisUtterance(FULL[curLang][curNum]);
+    u.lang=curLang==="th"?"th-TH":"en-US"; u.rate=.85;
+    speechSynthesis.cancel(); speechSynthesis.speak(u);
+  }catch(e){}
+}
+$("soundBtn").onclick=()=>{ ac(); speakWord(); };
+
+/* ============ TOAST ============ */
+function showToast(em,msg,ans){
+  $("toastEmoji").textContent=em;$("toastMsg").textContent=msg;$("toastAns").textContent=ans;
+  $("toast").classList.add("show");
+}
+function hideToast(){$("toast").classList.remove("show");}
+
+/* ============ CONFETTI ============ */
+const cv=$("confetti"),cx=cv.getContext("2d");let parts=[],raf;
+function sizeCv(){cv.width=innerWidth;cv.height=innerHeight;}
+addEventListener("resize",sizeCv);sizeCv();
+function fireConfetti(){
+  const cols=["#FFC93C","#FF8A5B","#5DC1B9","#118AB2","#06C285","#FFB7C5"];
+  for(let i=0;i<90;i++){
+    parts.push({type:"confetti",x:innerWidth/2,y:innerHeight/2,
+      vx:(Math.random()-.5)*12,vy:Math.random()*-12-3,
+      g:.4+Math.random()*.2,s:6+Math.random()*8,
+      c:cols[i%cols.length],r:Math.random()*6,vr:(Math.random()-.5)*.4,life:1,decay:.008});
+  }
+  if(!raf)loop();
+}
+function loop(){
+  cx.clearRect(0,0,cv.width,cv.height);
+  parts.forEach(p=>{
+    p.vy+=p.g; p.x+=p.vx; p.y+=p.vy; p.life-=p.decay;
+    if(p.drag){p.vx*=p.drag;p.vy*=p.drag;}
+    cx.save(); cx.globalAlpha=Math.max(p.life,0);
+    if(p.type==="spark"){
+      cx.fillStyle=p.c; cx.shadowColor=p.c; cx.shadowBlur=8;
+      cx.beginPath(); cx.arc(p.x,p.y,p.s,0,7); cx.fill();
+    }else{ // confetti
+      p.r+=p.vr; cx.translate(p.x,p.y); cx.rotate(p.r);
+      cx.fillStyle=p.c; cx.fillRect(-p.s/2,-p.s/2,p.s,p.s*.6);
+    }
+    cx.restore();
+  });
+  parts=parts.filter(p=>p.life>0&&p.y<cv.height+40);
+  if(parts.length){raf=requestAnimationFrame(loop);}else{cx.clearRect(0,0,cv.width,cv.height);raf=null;}
+}
+
+/* ============ FIREWORKS ============ */
+const FW_COLORS=["#FFC93C","#FF8A5B","#5DC1B9","#118AB2","#06C285","#FFB7C5","#FFFFFF","#B388FF"];
+function explode(x,y){
+  const col=FW_COLORS[Math.floor(Math.random()*FW_COLORS.length)];
+  const n=42+Math.floor(Math.random()*24);
+  const spd=4+Math.random()*4;
+  for(let i=0;i<n;i++){
+    const a=(Math.PI*2*i)/n + Math.random()*.15;
+    const v=spd*(.5+Math.random()*.7);
+    parts.push({type:"spark",x,y,
+      vx:Math.cos(a)*v, vy:Math.sin(a)*v,
+      g:.06, drag:.96, s:1.6+Math.random()*1.8,
+      c:Math.random()<.85?col:"#FFF7D6", life:1, decay:.012+Math.random()*.012});
+  }
+  if(!raf)loop();
+}
+function fireShow(duration=4200){
+  const launch=()=>explode(innerWidth*(.15+Math.random()*.7), innerHeight*(.12+Math.random()*.4));
+  launch();
+  const end=Date.now()+duration;
+  const t=setInterval(()=>{
+    launch();
+    if(Math.random()<.4) setTimeout(launch,180); // บางจังหวะยิงคู่
+    if(Date.now()>end)clearInterval(t);
+  },520);
+}
+
+/* ============ APPLAUSE (เสียงปรบมือสังเคราะห์) ============ */
+function playApplause(duration=4){
+  try{
+    const c=ac(), sr=c.sampleRate, len=Math.floor(sr*duration);
+    const buf=c.createBuffer(1,len,sr), d=buf.getChannelData(0);
+    // เสียงปรบมือ = เสียง "แปะ" สั้น ๆ จำนวนมากแบบสุ่ม ค่อย ๆ ดังขึ้นแล้วเบาลง
+    const claps=Math.floor(duration*55);
+    for(let k=0;k<claps;k++){
+      const pos=Math.floor(Math.random()*len);
+      const dlen=Math.floor(sr*(0.012+Math.random()*0.02));
+      const amp=0.25+Math.random()*0.4;
+      for(let j=0;j<dlen&&pos+j<len;j++){
+        const env=Math.pow(1-j/dlen,2);          // หางสั้น
+        d[pos+j]+=(Math.random()*2-1)*env*amp;
+      }
+    }
+    // ซองเสียงรวม: สวมขึ้น ~0.4s ค้าง แล้วจางลงท้าย
+    for(let i=0;i<len;i++){
+      const t=i/sr, swell=Math.min(1,t/0.4), fade=Math.min(1,(duration-t)/0.8);
+      d[i]*=swell*Math.max(fade,0)*0.6;
+    }
+    const src=c.createBufferSource(); src.buffer=buf;
+    const bp=c.createBiquadFilter(); bp.type="bandpass"; bp.frequency.value=2200; bp.Q.value=.6;
+    const g=c.createGain(); g.gain.value=.9;
+    src.connect(bp); bp.connect(g); g.connect(c.destination);
+    src.start();
+  }catch(e){}
+}
+function playFanfare(){try{[523,659,784,1046,1318].forEach((f,i)=>tone(f,i*.12,.5,"triangle",.18));}catch(e){}}
+
+/* ============ FINISH ============ */
+function finish(){
+  gameScreen.style.display="none"; endScreen.style.display="block";
+  const u=UI[uiLang];
+  $("starCount").textContent="⭐ "+stars;
+  $("endScore").textContent=u.score(stars,total);
+  $("endTitle").textContent= stars===total?u.perfect:u.great;
+  fireConfetti();
+  fireShow(4200);     // พลุยิงต่อเนื่อง ~4 วินาที
+  playFanfare();      // ทำนองฉลองสั้น ๆ
+  playApplause(4.5);  // เสียงปรบมือ
+}
+</script>
+</body>
+</html>
