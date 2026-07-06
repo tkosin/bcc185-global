@@ -14,6 +14,14 @@
 
 ---
 
+## 🚀 ผจญภัยอวกาศ ตัวเลข
+
+เกมฝึกคณิตศาสตร์แบบผจญภัยอวกาศ — เลือกโหมด **บวกดวงดาว** หรือ **ต่อแถวดาวเคราะห์** เลือกระดับความยาก (ง่าย/ปานกลาง) และเล่นได้ทั้งคนเดียวหรือสองคนผลัดกันตอบ พร้อมปุ่มฟังโจทย์ 🔊 และเคล็ดลับสำหรับผู้ปกครอง
+
+🔗 **เล่นออนไลน์ได้เลย:** [tkosin.github.io/bcc185-global/space-adventure-game.html](https://tkosin.github.io/bcc185-global/space-adventure-game.html)
+
+---
+
 ## วิธีเล่น
 
 1. เลือกโหมดภาษา: ภาษาไทย / English / ทั้งสองภาษา
@@ -54,11 +62,13 @@
 ```bash
 git clone https://github.com/tkosin/bcc185-global.git
 cd bcc185-global
-open spelling-game.html      # macOS
-open number-train-game.html  # macOS
+open spelling-game.html       # macOS
+open number-train-game.html   # macOS
+open space-adventure-game.html # macOS
 # หรือ
-start spelling-game.html     # Windows
-start number-train-game.html # Windows
+start spelling-game.html       # Windows
+start number-train-game.html   # Windows
+start space-adventure-game.html # Windows
 ```
 
 ---
