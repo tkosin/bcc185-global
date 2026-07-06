@@ -1,6 +1,6 @@
-# 🎪 สวนเกมตัวเลข
+# 🎪 สวนเกมของหนู
 
-รวมเกมฝึกตัวเลขและคณิตศาสตร์สำหรับเด็ก — เล่นสนุก เรียนง่าย
+รวมเกมฝึกตัวเลข คณิตศาสตร์ และภาษาสำหรับเด็ก — เล่นสนุก เรียนง่าย
 
 🔗 **เข้าเล่นได้เลยที่หน้าหลัก:** [tkosin.github.io/bcc185-global](https://tkosin.github.io/bcc185-global/)
 
@@ -29,6 +29,14 @@
 เกมฝึกคณิตศาสตร์แบบผจญภัยอวกาศ — เลือกโหมด **บวกดวงดาว** หรือ **ต่อแถวดาวเคราะห์** เลือกระดับความยาก (ง่าย/ปานกลาง) และเล่นได้ทั้งคนเดียวหรือสองคนผลัดกันตอบ พร้อมปุ่มฟังโจทย์ 🔊 และเคล็ดลับสำหรับผู้ปกครอง
 
 🔗 **เล่นออนไลน์ได้เลย:** [tkosin.github.io/bcc185-global/space-adventure-game.html](https://tkosin.github.io/bcc185-global/space-adventure-game.html)
+
+---
+
+## 🏮 แพนด้าล่าโคมไฟศัพท์จีน
+
+เกมฝึกคำศัพท์ภาษาจีน HSK 1 สำหรับเด็ก (เตรียมสอบ ป.1) มี 3 ด่าน: **เปิดโคมสมบัติ** (เรียนคำศัพท์ใหม่ทีละคำพร้อมฟังเสียง), **จับคู่สายฟ้า** (เกมความจำจับคู่คำจีนกับความหมาย), และ **ศึกประลองมังกร** (ตอบคำถามปรนัย 4 ตัวเลือก A/B/C/D แบบข้อสอบจริง)
+
+🔗 **เล่นออนไลน์ได้เลย:** [tkosin.github.io/bcc185-global/chinese-lantern-game.html](https://tkosin.github.io/bcc185-global/chinese-lantern-game.html)
 
 ---
 
@@ -72,15 +80,17 @@
 ```bash
 git clone https://github.com/tkosin/bcc185-global.git
 cd bcc185-global
-open index.html                 # macOS — หน้าหลัก
-open spelling-game.html         # macOS
-open number-train-game.html     # macOS
-open space-adventure-game.html  # macOS
+open index.html                  # macOS — หน้าหลัก
+open spelling-game.html          # macOS
+open number-train-game.html      # macOS
+open space-adventure-game.html   # macOS
+open chinese-lantern-game.html   # macOS
 # หรือ
-start index.html                # Windows — หน้าหลัก
-start spelling-game.html        # Windows
-start number-train-game.html    # Windows
-start space-adventure-game.html # Windows
+start index.html                 # Windows — หน้าหลัก
+start spelling-game.html         # Windows
+start number-train-game.html     # Windows
+start space-adventure-game.html  # Windows
+start chinese-lantern-game.html  # Windows
 ```
 
 ---

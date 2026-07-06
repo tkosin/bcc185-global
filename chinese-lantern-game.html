@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>แพนด้าล่าโคมไฟศัพท์จีน</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Itim&family=Mali:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --red:#e6373b; --redDark:#a8262a; --gold:#ffcb3d; --goldDark:#d9a100;
+    --cream:#fff8ec; --ink:#3a2350; --green:#4ecb8a; --greenDark:#2f9e63;
+    --blue:#4aa8ff; --purple:#a06bff;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;}
+  body{
+    font-family:'Mali',sans-serif;color:var(--ink);
+    background:radial-gradient(circle at 25% 0%, #ff6a5e 0%, var(--red) 45%, var(--redDark) 100%);
+    min-height:100dvh;overflow-x:hidden;position:relative;
+    display:flex;flex-direction:column;align-items:center;
+    padding:16px 14px 34px;user-select:none;
+  }
+  .deco{position:fixed;z-index:0;pointer-events:none;font-size:2.2rem;opacity:.9;
+        animation:sway 5s ease-in-out infinite;filter:drop-shadow(0 4px 6px rgba(0,0,0,.25));}
+  .deco.d1{top:4%;left:5%;} .deco.d2{top:6%;right:6%;animation-delay:1s;}
+  .deco.d3{top:70%;left:4%;font-size:1.8rem;animation-delay:.5s;}
+  .deco.d4{top:66%;right:5%;font-size:1.8rem;animation-delay:1.6s;}
+  @keyframes sway{0%,100%{transform:rotate(-6deg) translateY(0);}50%{transform:rotate(6deg) translateY(-8px);}}
+  @media (prefers-reduced-motion: reduce){ .deco{animation:none;} }
+
+  .wrap{width:100%;max-width:560px;position:relative;z-index:1;display:flex;flex-direction:column;gap:12px;}
+
+  header{text-align:center;}
+  h1{font-family:'Itim',cursive;font-size:1.9rem;line-height:1.15;color:#fff;
+     text-shadow:0 3px 0 var(--redDark), 0 6px 10px rgba(0,0,0,.2);}
+  h1 .em{color:var(--gold);text-shadow:0 3px 0 var(--goldDark),0 6px 10px rgba(0,0,0,.2);}
+
+  .topbar{display:flex;align-items:center;justify-content:center;gap:10px;
+       background:var(--cream);border-radius:22px;padding:8px 16px;
+       box-shadow:0 4px 0 rgba(0,0,0,.15);font-family:'Itim',cursive;font-size:1.15rem;}
+
+  .mascot{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.92);
+    border-radius:20px;padding:10px 14px;box-shadow:0 4px 0 rgba(0,0,0,.12);}
+  .mascot .face{font-size:2.3rem;flex:0 0 auto;}
+  .mascot .say{font-size:.98rem;color:#5a4a30;line-height:1.35;}
+
+  .card{background:var(--cream);border-radius:28px;padding:22px 18px 24px;
+        box-shadow:0 8px 0 rgba(0,0,0,.15), 0 16px 30px rgba(0,0,0,.22);}
+
+  /* ---------- MENU ---------- */
+  .exam-banner{background:#fff2cf;border:2px dashed var(--goldDark);border-radius:16px;
+    padding:10px 14px;text-align:center;font-size:.92rem;color:#7a5300;margin-bottom:14px;}
+  .missions{display:flex;flex-direction:column;gap:14px;}
+  .mission-btn{border:none;cursor:pointer;font-family:'Itim',cursive;color:#fff;text-align:left;
+    font-size:1.25rem;border-radius:22px;padding:16px 18px;display:flex;align-items:center;gap:14px;
+    box-shadow:0 6px 0 rgba(0,0,0,.2);transition:transform .08s, box-shadow .08s;}
+  .mission-btn:active{transform:translateY(4px);box-shadow:0 2px 0 rgba(0,0,0,.2);}
+  .mission-btn .ico{font-size:2.1rem;line-height:1;flex:0 0 auto;}
+  .mission-btn .txt .sub{font-family:'Mali';font-size:.85rem;font-weight:500;opacity:.9;display:block;margin-top:2px;}
+  .m1{background:linear-gradient(180deg,#ffb84d,var(--gold));color:#6a4a00;box-shadow:0 6px 0 var(--goldDark);}
+  .m2{background:linear-gradient(180deg,#5fd6e0,var(--blue));box-shadow:0 6px 0 #2c7ecf;}
+  .m3{background:linear-gradient(180deg,#c98bff,var(--purple));box-shadow:0 6px 0 #7d3fc9;}
+
+  .foot{display:flex;justify-content:center;margin-top:6px;}
+  .home-link{background:none;border:none;cursor:pointer;font-family:'Mali';font-size:1rem;
+             color:#6a5f85;text-decoration:underline;padding:8px 12px;}
+
+  /* ---------- LANTERN STAGE ---------- */
+  .stage-title{font-family:'Itim',cursive;font-size:1.3rem;text-align:center;margin-bottom:4px;}
+  .stage-sub{text-align:center;color:#8a7fa3;font-size:.95rem;margin-bottom:14px;}
+  .lantern-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;}
+  @media (max-width:400px){ .lantern-grid{grid-template-columns:repeat(3,1fr);} }
+  .lantern{aspect-ratio:1;border:none;border-radius:16px;cursor:pointer;background:linear-gradient(180deg,#ff8a6e,var(--red));
+    color:#fff;font-size:1.8rem;display:flex;align-items:center;justify-content:center;
+    box-shadow:0 4px 0 var(--redDark);transition:transform .12s, box-shadow .12s;}
+  .lantern:active{transform:scale(.95);}
+  .lantern.opened{background:#fff;box-shadow:inset 0 0 0 3px var(--gold);cursor:default;
+    flex-direction:column;padding:4px;gap:1px;animation:pop .3s;}
+  .lantern.opened .ch{font-size:1.5rem;color:var(--ink);font-family:'Itim',cursive;}
+  .lantern.opened .py{font-size:.62rem;color:#8a7fa3;}
+  .lantern.opened .emo{font-size:1rem;}
+  @keyframes pop{0%{transform:scale(.7);}60%{transform:scale(1.12);}100%{transform:scale(1);}}
+
+  .reveal-card{background:#fff;border-radius:20px;padding:18px;text-align:center;margin-bottom:14px;
+    box-shadow:inset 0 0 0 3px var(--gold);}
+  .reveal-card .ch{font-family:'Itim',cursive;font-size:3rem;color:var(--ink);}
+  .reveal-card .py{font-size:1.1rem;color:#8a5300;margin:2px 0;}
+  .reveal-card .th{font-size:1.2rem;color:var(--ink);margin-top:4px;}
+  .reveal-card .emo{font-size:2rem;margin-top:4px;}
+  .speak-btn{margin-top:10px;border:none;background:var(--blue);color:#fff;font-family:'Itim',cursive;
+    font-size:1rem;border-radius:14px;padding:8px 18px;cursor:pointer;box-shadow:0 4px 0 #2c7ecf;}
+  .speak-btn:active{transform:translateY(2px);box-shadow:0 1px 0 #2c7ecf;}
+
+  .progress-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;
+    font-family:'Itim',cursive;font-size:1rem;color:#6a5f85;}
+  .nav-row{display:flex;gap:10px;justify-content:center;margin-top:6px;}
+  .nav-btn{border:none;background:#fff;color:var(--ink);font-family:'Itim',cursive;font-size:1rem;
+    border-radius:14px;padding:10px 20px;cursor:pointer;box-shadow:0 4px 0 #d9cff0;}
+  .nav-btn:disabled{opacity:.4;cursor:default;}
+  .nav-btn:active:not(:disabled){transform:translateY(2px);box-shadow:0 1px 0 #d9cff0;}
+
+  /* ---------- MEMORY MATCH ---------- */
+  .match-top{display:flex;justify-content:space-between;font-family:'Itim',cursive;font-size:1.05rem;
+    color:#6a5f85;margin-bottom:10px;}
+  .match-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+  .mcard{aspect-ratio:1;border-radius:14px;cursor:pointer;background:linear-gradient(180deg,#ff8a6e,var(--red));
+    display:flex;align-items:center;justify-content:center;font-size:1.6rem;color:#fff;
+    box-shadow:0 3px 0 var(--redDark);transition:transform .15s;}
+  .mcard.flipped{background:#fff;color:var(--ink);box-shadow:inset 0 0 0 3px var(--gold);
+    flex-direction:column;font-size:1.3rem;padding:2px;text-align:center;}
+  .mcard.flipped .py{font-size:.55rem;color:#8a7fa3;}
+  .mcard.flipped .th{font-size:.68rem;color:var(--ink);line-height:1.1;}
+  .mcard.matched{background:#eafff0;box-shadow:inset 0 0 0 3px var(--green);opacity:.55;pointer-events:none;}
+  .mcard.wrong{animation:shake .35s;}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+
+  /* ---------- BOSS BATTLE ---------- */
+  .boss-wrap{text-align:center;margin-bottom:14px;}
+  .boss-face{font-size:4.2rem;line-height:1;transition:transform .2s;}
+  .boss-face.hit{animation:hit .3s;}
+  .boss-face.laugh{animation:laugh .4s;}
+  @keyframes hit{0%{transform:scale(1)}30%{transform:scale(.8) rotate(-8deg)}100%{transform:scale(1)}}
+  @keyframes laugh{0%,100%{transform:rotate(0)}25%{transform:rotate(-10deg)}75%{transform:rotate(10deg)}}
+  .hpbar{width:100%;height:18px;background:#fff;border-radius:999px;overflow:hidden;
+    box-shadow:inset 0 2px 4px rgba(0,0,0,.15);margin-top:6px;}
+  .hpfill{height:100%;background:linear-gradient(90deg,#ff6a5e,var(--red));border-radius:999px;
+    transition:width .3s ease;}
+  .streak{text-align:center;font-family:'Itim',cursive;color:var(--goldDark);font-size:1rem;min-height:1.4rem;margin-bottom:6px;}
+  .q-card{background:#fff;border-radius:20px;padding:16px;text-align:center;margin-bottom:14px;
+    box-shadow:inset 0 0 0 3px #ece3ff;}
+  .q-card .ch{font-family:'Itim',cursive;font-size:2.6rem;color:var(--ink);}
+  .q-card .py{font-size:1.05rem;color:#8a5300;margin-top:2px;}
+  .boss-choices{display:flex;flex-direction:column;gap:10px;}
+  .boss-choice{border:none;cursor:pointer;font-family:'Mali';font-weight:700;font-size:1.05rem;color:var(--ink);
+    background:#fff;border-radius:16px;padding:14px 16px;text-align:left;
+    box-shadow:0 4px 0 #d9cff0, inset 0 0 0 2px #ece3ff;transition:transform .08s, box-shadow .08s;}
+  .boss-choice .lab{color:var(--purple);margin-right:8px;}
+  .boss-choice:active{transform:translateY(3px);box-shadow:0 1px 0 #d9cff0, inset 0 0 0 2px #ece3ff;}
+  .boss-choice.good{background:var(--green);color:#fff;box-shadow:0 4px 0 var(--greenDark);}
+  .boss-choice.good .lab{color:#fff;}
+  .boss-choice.bad{background:#ffd0cb;box-shadow:0 4px 0 #e79b93;}
+  .popup{text-align:center;font-family:'Itim',cursive;font-size:1.3rem;min-height:1.8rem;margin-bottom:4px;}
+  .popup.hitpop{color:var(--red);} .popup.laughpop{color:#8a7fa3;}
+
+  .result{text-align:center;}
+  .result .emo{font-size:3.4rem;}
+  .result h2{font-family:'Itim',cursive;font-size:1.7rem;color:var(--red);margin:.2em 0;}
+  .result .stats{font-size:1.05rem;color:#6a5f85;margin-bottom:14px;}
+  .result-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+  .retry-btn{border:none;cursor:pointer;font-family:'Itim',cursive;color:#fff;font-size:1.1rem;
+    background:linear-gradient(180deg,#c98bff,var(--purple));border-radius:16px;padding:12px 22px;
+    box-shadow:0 5px 0 #7d3fc9;}
+  .retry-btn:active{transform:translateY(3px);box-shadow:0 2px 0 #7d3fc9;}
+
+  .confetti{position:fixed;top:-10px;width:12px;height:16px;border-radius:3px;z-index:9999;pointer-events:none;}
+
+  .site-home{position:fixed;top:12px;left:12px;z-index:20;width:46px;height:46px;border-radius:50%;
+    background:var(--cream);display:flex;align-items:center;justify-content:center;font-size:1.4rem;
+    text-decoration:none;color:var(--ink);box-shadow:0 4px 0 rgba(0,0,0,.25);transition:transform .08s,box-shadow .08s;}
+  .site-home:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.25);}
+
+  @media (max-width:380px){
+    h1{font-size:1.55rem;} .reveal-card .ch{font-size:2.4rem;} .q-card .ch{font-size:2.1rem;}
+  }
+</style>
+</head>
+<body>
+<a class="site-home" href="index.html" title="กลับหน้าหลัก" aria-label="กลับหน้าหลัก">🏠</a>
+<div class="deco d1" aria-hidden="true">🏮</div>
+<div class="deco d2" aria-hidden="true">🏮</div>
+<div class="deco d3" aria-hidden="true">✨</div>
+<div class="deco d4" aria-hidden="true">🎉</div>
+
+<div class="wrap">
+  <header>
+    <h1>🏮 แพนด้าล่า<span class="em">โคมไฟศัพท์จีน</span></h1>
+  </header>
+
+  <div class="topbar" id="statusBar" hidden>
+    <span>⭐ รวม</span><strong id="totalStars">0</strong>
+  </div>
+
+  <div id="screen"></div>
+</div>
+
+<script>
+(function(){
+  const screen = document.getElementById('screen');
+  const statusBar = document.getElementById('statusBar');
+  const totalStarsEl = document.getElementById('totalStars');
+
+  const rand = n => Math.floor(Math.random()*n);
+  const pick = a => a[rand(a.length)];
+  const shuffle = a => a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(p=>p[1]);
+
+  const WORDS = [
+    {ch:'我', py:'wǒ', th:'ฉัน / ผม', emo:'🙋'},
+    {ch:'你', py:'nǐ', th:'คุณ', emo:'👉'},
+    {ch:'他', py:'tā', th:'เขา (ผู้ชาย)', emo:'👦'},
+    {ch:'她', py:'tā', th:'เขา (ผู้หญิง)', emo:'👧'},
+    {ch:'一', py:'yī', th:'หนึ่ง (1)', emo:'1️⃣'},
+    {ch:'二', py:'èr', th:'สอง (2)', emo:'2️⃣'},
+    {ch:'三', py:'sān', th:'สาม (3)', emo:'3️⃣'},
+    {ch:'四', py:'sì', th:'สี่ (4)', emo:'4️⃣'},
+    {ch:'五', py:'wǔ', th:'ห้า (5)', emo:'5️⃣'},
+    {ch:'六', py:'liù', th:'หก (6)', emo:'6️⃣'},
+    {ch:'七', py:'qī', th:'เจ็ด (7)', emo:'7️⃣'},
+    {ch:'八', py:'bā', th:'แปด (8)', emo:'8️⃣'},
+    {ch:'九', py:'jiǔ', th:'เก้า (9)', emo:'9️⃣'},
+    {ch:'十', py:'shí', th:'สิบ (10)', emo:'🔟'},
+    {ch:'好', py:'hǎo', th:'ดี', emo:'👍'},
+    {ch:'不', py:'bù', th:'ไม่', emo:'🚫'},
+    {ch:'爸爸', py:'bàba', th:'พ่อ', emo:'👨'},
+    {ch:'妈妈', py:'māma', th:'แม่', emo:'👩'},
+    {ch:'哥哥', py:'gēge', th:'พี่ชาย', emo:'🧑'},
+    {ch:'姐姐', py:'jiějie', th:'พี่สาว', emo:'👱‍♀️'},
+    {ch:'猫', py:'māo', th:'แมว', emo:'🐱'},
+    {ch:'狗', py:'gǒu', th:'หมา', emo:'🐶'},
+    {ch:'红色', py:'hóngsè', th:'สีแดง', emo:'🔴'},
+    {ch:'白色', py:'báisè', th:'สีขาว', emo:'⚪'},
+    {ch:'水', py:'shuǐ', th:'น้ำ', emo:'💧'},
+    {ch:'米饭', py:'mǐfàn', th:'ข้าว', emo:'🍚'},
+    {ch:'苹果', py:'píngguǒ', th:'แอปเปิ้ล', emo:'🍎'},
+    {ch:'书', py:'shū', th:'หนังสือ', emo:'📖'},
+    {ch:'老师', py:'lǎoshī', th:'คุณครู', emo:'🧑‍🏫'},
+    {ch:'大', py:'dà', th:'ใหญ่', emo:'🐘'},
+    {ch:'小', py:'xiǎo', th:'เล็ก', emo:'🐭'},
+  ];
+
+  const state = { totalStars: 0 };
+
+  /* ---- sounds ---- */
+  let actx=null;
+  function tone(freq,dur,type='sine',when=0,vol=.22){
+    try{
+      actx = actx || new (window.AudioContext||window.webkitAudioContext)();
+      const o=actx.createOscillator(), g=actx.createGain();
+      o.type=type;o.frequency.value=freq;o.connect(g);g.connect(actx.destination);
+      const t=actx.currentTime+when;
+      g.gain.setValueAtTime(0.0001,t);
+      g.gain.exponentialRampToValueAtTime(vol,t+0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+      o.start(t);o.stop(t+dur);
+    }catch(e){}
+  }
+  const happy = ()=>{tone(523,0.15);tone(659,0.15,'sine',0.12);tone(784,0.25,'sine',0.24);};
+  const oops  = ()=>tone(280,0.2,'triangle');
+  const ding  = ()=>{tone(880,0.1);tone(1046,0.15,'sine',0.08);};
+  const hit   = ()=>{tone(180,0.12,'square');tone(120,0.15,'square',0.05);};
+
+  function speak(text){
+    try{
+      if(!('speechSynthesis' in window)) return;
+      speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang='zh-CN'; u.rate=.85;
+      speechSynthesis.speak(u);
+    }catch(e){}
+  }
+
+  function confettiBurst(){
+    if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const colors=['#ffcb3d','#e6373b','#4ecb8a','#a06bff','#4aa8ff'];
+    for(let i=0;i<28;i++){
+      const c=document.createElement('div');
+      c.className='confetti';
+      c.style.left=(Math.random()*100)+'vw';
+      c.style.background=pick(colors);
+      c.style.transform=`rotate(${Math.random()*360}deg)`;
+      document.body.appendChild(c);
+      const dur=1200+Math.random()*900;
+      c.animate([{transform:c.style.transform,top:'-10px',opacity:1},
+                 {top:'100vh',opacity:.9}],{duration:dur,easing:'ease-in'});
+      setTimeout(()=>c.remove(),dur);
+    }
+  }
+
+  function addStars(n){
+    state.totalStars += n;
+    totalStarsEl.textContent = state.totalStars;
+  }
+
+  /* ================= MENU ================= */
+  function home(){
+    statusBar.hidden = false;
+    screen.innerHTML = `
+      <div class="mascot">
+        <span class="face">🐼</span>
+        <span class="say">สวัสดี! ฉันคือแพนด้าผู้ช่วย มาเก็บโคมไฟศัพท์จีนกันเถอะ เตรียมสอบให้พร้อม!</span>
+      </div>
+      <div class="card">
+        <div class="exam-banner">📅 เตรียมพร้อมสอบคำศัพท์ HSK 1 วันที่ <b>15 กรกฎาคม 2569</b> ✏️</div>
+        <div class="missions">
+          <button class="mission-btn m1" data-go="lantern">
+            <span class="ico">🎴</span>
+            <span class="txt">เปิดโคมสมบัติ<span class="sub">เรียนคำศัพท์ใหม่ทีละคำ พร้อมฟังเสียง</span></span>
+          </button>
+          <button class="mission-btn m2" data-go="match">
+            <span class="ico">🧠</span>
+            <span class="txt">จับคู่สายฟ้า<span class="sub">เกมความจำ จับคู่คำจีนกับความหมาย</span></span>
+          </button>
+          <button class="mission-btn m3" data-go="boss">
+            <span class="ico">🐉</span>
+            <span class="txt">ศึกประลองมังกร<span class="sub">ตอบคำถามปรนัย 4 ตัวเลือก แบบข้อสอบจริง</span></span>
+          </button>
+        </div>
+      </div>`;
+    screen.querySelectorAll('[data-go]').forEach(b=>{
+      b.onclick=()=>{ tone(660,0.1); go(b.dataset.go); };
+    });
+  }
+
+  function go(mission){
+    if(mission==='lantern') lanternStage();
+    else if(mission==='match') matchStage();
+    else if(mission==='boss') bossStage();
+  }
+
+  function menuFooter(){
+    return `<div class="foot"><button class="home-link" id="backHome">🏠 กลับเมนู</button></div>`;
+  }
+  function wireMenuFooter(){
+    document.getElementById('backHome').onclick = home;
+  }
+
+  /* ================= STAGE 1: LANTERN REVEAL ================= */
+  const LANTERN_BATCH = 8;
+  const lanternState = { batch:0, opened:new Set() };
+
+  function lanternStage(){
+    renderLanternBatch();
+  }
+
+  function renderLanternBatch(){
+    const totalBatches = Math.ceil(WORDS.length / LANTERN_BATCH);
+    const b = lanternState.batch;
+    const start = b*LANTERN_BATCH;
+    const words = WORDS.slice(start, start+LANTERN_BATCH);
+    const openedInBatch = words.filter(w=>lanternState.opened.has(w.ch)).length;
+
+    screen.innerHTML = `
+      <div class="card">
+        <div class="stage-title">🎴 เปิดโคมสมบัติ</div>
+        <div class="stage-sub">แตะโคมไฟเพื่อเปิดดูคำศัพท์ใหม่!</div>
+        <div class="progress-row">
+          <span>รอบที่ ${b+1}/${totalBatches}</span>
+          <span>เปิดแล้ว ${openedInBatch}/${words.length}</span>
+        </div>
+        <div class="lantern-grid" id="lgrid">
+          ${words.map((w,i)=>{
+            const opened = lanternState.opened.has(w.ch);
+            return opened
+              ? `<div class="lantern opened" data-i="${i}"><span class="ch">${w.ch}</span><span class="py">${w.py}</span><span class="emo">${w.emo}</span></div>`
+              : `<button class="lantern" data-i="${i}">🏮</button>`;
+          }).join('')}
+        </div>
+        <div id="revealZone"></div>
+        <div class="nav-row">
+          <button class="nav-btn" id="prevBatch" ${b===0?'disabled':''}>← ก่อนหน้า</button>
+          <button class="nav-btn" id="nextBatch" ${b>=totalBatches-1?'disabled':''}>ถัดไป →</button>
+        </div>
+        ${menuFooter()}
+      </div>`;
+
+    screen.querySelectorAll('.lantern:not(.opened)').forEach(btn=>{
+      btn.onclick=()=>{
+        const w = words[+btn.dataset.i];
+        lanternState.opened.add(w.ch);
+        ding();
+        if(!lanternState._earnedBadge) {} // placeholder
+        speak(w.ch);
+        renderLanternBatch();
+        setTimeout(()=>{
+          const zone = document.getElementById('revealZone');
+          if(zone){
+            zone.innerHTML = `
+              <div class="reveal-card">
+                <div class="ch">${w.ch}</div>
+                <div class="py">${w.py}</div>
+                <div class="th">${w.th}</div>
+                <div class="emo">${w.emo}</div>
+                <button class="speak-btn" id="replaySpeak">🔊 ฟังอีกครั้ง</button>
+              </div>`;
+            document.getElementById('replaySpeak').onclick=()=>speak(w.ch);
+          }
+        }, 50);
+        const allOpenedNow = words.every(ww=>lanternState.opened.has(ww.ch));
+        if(allOpenedNow){
+          addStars(1);
+          confettiBurst();
+        }
+      };
+    });
+    document.getElementById('prevBatch').onclick=()=>{ lanternState.batch--; renderLanternBatch(); };
+    document.getElementById('nextBatch').onclick=()=>{ lanternState.batch++; renderLanternBatch(); };
+    wireMenuFooter();
+  }
+
+  /* ================= STAGE 2: MEMORY MATCH ================= */
+  const PAIR_COUNT = 6;
+  let matchState = null;
+
+  function matchStage(){
+    const chosen = shuffle(WORDS.slice()).slice(0, PAIR_COUNT);
+    let cards = [];
+    chosen.forEach(w=>{
+      cards.push({key:w.ch, kind:'ch', word:w});
+      cards.push({key:w.ch, kind:'meaning', word:w});
+    });
+    cards = shuffle(cards);
+    matchState = {
+      cards, flipped:[], matched:new Set(), tries:0, combo:0, bestCombo:0,
+      startTime: null, timerId:null, elapsed:0, done:false,
+    };
+    renderMatch();
+  }
+
+  function renderMatch(){
+    const st = matchState;
+    screen.innerHTML = `
+      <div class="card">
+        <div class="stage-title">🧠 จับคู่สายฟ้า</div>
+        <div class="stage-sub">จับคู่ตัวอักษรจีนกับความหมายให้ครบ!</div>
+        <div class="match-top">
+          <span id="timeDisp">⏱️ 0s</span>
+          <span id="comboDisp">🔥 คอมโบ: 0</span>
+        </div>
+        <div class="match-grid" id="mgrid">
+          ${st.cards.map((c,i)=>`<div class="mcard" data-i="${i}">🏮</div>`).join('')}
+        </div>
+        ${menuFooter()}
+      </div>`;
+    wireMenuFooter();
+
+    screen.querySelectorAll('.mcard').forEach(el=>{
+      el.onclick=()=>onCardClick(+el.dataset.i);
+    });
+
+    if(!st.timerId){
+      st.startTime = Date.now();
+      st.timerId = setInterval(()=>{
+        st.elapsed = Math.floor((Date.now()-st.startTime)/1000);
+        const disp = document.getElementById('timeDisp');
+        if(disp) disp.textContent = `⏱️ ${st.elapsed}s`;
+      }, 1000);
+    }
+  }
+
+  function onCardClick(i){
+    const st = matchState;
+    if(st.busy || st.done) return;
+    if(st.matched.has(i) || st.flipped.includes(i)) return;
+    st.flipped.push(i);
+    updateCardEl(i);
+    if(st.flipped.length < 2) return;
+
+    st.busy = true;
+    st.tries++;
+    const [a,b] = st.flipped;
+    const cardA = st.cards[a], cardB = st.cards[b];
+    if(cardA.key === cardB.key){
+      setTimeout(()=>{
+        st.matched.add(a); st.matched.add(b);
+        st.flipped = [];
+        st.combo++;
+        st.bestCombo = Math.max(st.bestCombo, st.combo);
+        ding();
+        updateCardEl(a); updateCardEl(b);
+        document.getElementById('comboDisp').textContent = `🔥 คอมโบ: ${st.combo}`;
+        st.busy = false;
+        if(st.matched.size === st.cards.length){
+          finishMatch();
+        }
+      }, 350);
+    } else {
+      oops();
+      st.combo = 0;
+      document.getElementById('comboDisp').textContent = `🔥 คอมโบ: 0`;
+      [a,b].forEach(idx=>{
+        const el = document.querySelector(`.mcard[data-i="${idx}"]`);
+        if(el) el.classList.add('wrong');
+      });
+      setTimeout(()=>{
+        st.flipped = [];
+        [a,b].forEach(idx=>{
+          const el = document.querySelector(`.mcard[data-i="${idx}"]`);
+          if(el) el.classList.remove('wrong');
+        });
+        updateCardEl(a); updateCardEl(b);
+        st.busy = false;
+      }, 700);
+    }
+  }
+
+  function updateCardEl(i){
+    const st = matchState;
+    const el = document.querySelector(`.mcard[data-i="${i}"]`);
+    if(!el) return;
+    const c = st.cards[i];
+    const isFlipped = st.flipped.includes(i) || st.matched.has(i);
+    el.className = 'mcard' + (isFlipped?' flipped':'') + (st.matched.has(i)?' matched':'');
+    if(isFlipped){
+      el.innerHTML = c.kind==='ch'
+        ? `<span>${c.word.ch}</span><span class="py">${c.word.py}</span>`
+        : `<span>${c.word.emo}</span><span class="th">${c.word.th}</span>`;
+    } else {
+      el.textContent = '🏮';
+    }
+  }
+
+  function finishMatch(){
+    const st = matchState;
+    st.done = true;
+    clearInterval(st.timerId);
+    const stars = st.tries <= PAIR_COUNT*1.5 ? 3 : st.tries <= PAIR_COUNT*2.5 ? 2 : 1;
+    addStars(stars);
+    happy(); confettiBurst();
+    const zone = document.querySelector('.card');
+    if(zone){
+      zone.innerHTML = `
+        <div class="result">
+          <div class="emo">🎉</div>
+          <h2>เก่งมาก!</h2>
+          <div class="stats">ใช้เวลา ${st.elapsed} วินาที &middot; ลองทั้งหมด ${st.tries} ครั้ง &middot; คอมโบสูงสุด ${st.bestCombo}</div>
+          <div class="stats">${'⭐'.repeat(stars)}${'☆'.repeat(3-stars)}</div>
+          <div class="result-btns">
+            <button class="retry-btn" id="playAgain">🔁 เล่นอีกรอบ</button>
+          </div>
+          ${menuFooter()}
+        </div>`;
+      document.getElementById('playAgain').onclick = matchStage;
+      wireMenuFooter();
+    }
+  }
+
+  /* ================= STAGE 3: BOSS BATTLE ================= */
+  const HP_MAX = 8;
+  const MAX_QUESTIONS = 20;
+  let bossState = null;
+
+  function bossStage(){
+    bossState = {
+      hp: HP_MAX, queue: shuffle(WORDS.slice()), pos:0,
+      streak:0, correct:0, asked:0, done:false, busy:false,
+    };
+    renderBossQuestion();
+  }
+
+  function nextBossWord(){
+    const st = bossState;
+    if(st.pos >= st.queue.length){ st.queue = shuffle(WORDS.slice()); st.pos = 0; }
+    return st.queue[st.pos++];
+  }
+
+  function renderBossQuestion(){
+    const st = bossState;
+    const target = nextBossWord();
+    st.current = target;
+
+    const distractors = shuffle(WORDS.filter(w=>w.th!==target.th)).slice(0,3).map(w=>w.th);
+    const options = shuffle([target.th, ...distractors]);
+    const labels = ['A','B','C','D'];
+
+    screen.innerHTML = `
+      <div class="card">
+        <div class="stage-title">🐉 ศึกประลองมังกร</div>
+        <div class="boss-wrap">
+          <div class="boss-face" id="bossFace">🐉</div>
+          <div class="hpbar"><div class="hpfill" id="hpfill" style="width:${(st.hp/HP_MAX*100)}%"></div></div>
+        </div>
+        <div class="streak" id="streakDisp">${st.streak>=2?`🔥 ต่อเนื่อง ${st.streak} ครั้ง!`:''}</div>
+        <div class="popup" id="popup"></div>
+        <div class="q-card">
+          <div class="ch">${target.ch}</div>
+          <div class="py">${target.py}</div>
+          <button class="speak-btn" id="speakQ">🔊 ฟังเสียง</button>
+        </div>
+        <div class="boss-choices" id="choices">
+          ${options.map((opt,i)=>`<button class="boss-choice" data-v="${opt.replace(/"/g,'&quot;')}"><span class="lab">${labels[i]}.</span>${opt}</button>`).join('')}
+        </div>
+        ${menuFooter()}
+      </div>`;
+
+    document.getElementById('speakQ').onclick=()=>speak(target.ch);
+    wireMenuFooter();
+
+    screen.querySelectorAll('.boss-choice').forEach(btn=>{
+      btn.onclick=()=>onBossAnswer(btn, target);
+    });
+  }
+
+  function onBossAnswer(btn, target){
+    const st = bossState;
+    if(st.busy) return;
+    st.busy = true;
+    st.asked++;
+    const chosen = btn.dataset.v;
+    const correct = chosen === target.th;
+    const face = document.getElementById('bossFace');
+    const popup = document.getElementById('popup');
+
+    if(correct){
+      st.correct++;
+      st.streak++;
+      const crit = st.streak % 3 === 0;
+      const dmg = crit ? 2 : 1;
+      st.hp = Math.max(0, st.hp - dmg);
+      btn.classList.add('good');
+      hit();
+      face.classList.add('hit'); setTimeout(()=>face.classList.remove('hit'),300);
+      document.getElementById('hpfill').style.width = (st.hp/HP_MAX*100)+'%';
+      popup.className = 'popup hitpop';
+      popup.textContent = crit ? '💥 คริติคอล! โจมตีหนัก!' : '⚔️ โจมตีมังกร!';
+    } else {
+      st.streak = 0;
+      btn.classList.add('bad');
+      oops();
+      face.classList.add('laugh'); setTimeout(()=>face.classList.remove('laugh'),400);
+      popup.className = 'popup laughpop';
+      popup.textContent = '😂 มังกรหัวเราะ ลองอีกครั้งนะ';
+      screen.querySelectorAll('.boss-choice').forEach(b=>{
+        if(b.dataset.v === target.th) b.classList.add('good');
+      });
+    }
+
+    setTimeout(()=>{
+      if(st.hp<=0){
+        bossVictory();
+      } else if(st.asked>=MAX_QUESTIONS){
+        bossEnd(false);
+      } else {
+        st.busy = false;
+        renderBossQuestion();
+      }
+    }, correct ? 900 : 1500);
+  }
+
+  function bossVictory(){
+    bossEnd(true);
+  }
+
+  function bossEnd(won){
+    const st = bossState;
+    st.done = true;
+    const wrong = st.asked - st.correct;
+    const stars = wrong===0 ? 3 : wrong<=3 ? 2 : 1;
+    if(won){ addStars(stars); happy(); confettiBurst(); }
+    else { addStars(Math.max(1,stars-1)); }
+
+    screen.innerHTML = `
+      <div class="card">
+        <div class="result">
+          <div class="emo">${won?'🏆':'💪'}</div>
+          <h2>${won?'ปราบมังกรได้สำเร็จ!':'เกือบแล้ว! สู้ต่อไปนะ'}</h2>
+          <div class="stats">ตอบถูก ${st.correct} จาก ${st.asked} ข้อ</div>
+          <div class="stats">${'⭐'.repeat(stars)}${'☆'.repeat(3-stars)}</div>
+          <div class="result-btns">
+            <button class="retry-btn" id="retryBoss">🐉 ท้าสู้อีกครั้ง</button>
+          </div>
+          ${menuFooter()}
+        </div>
+      </div>`;
+    document.getElementById('retryBoss').onclick = bossStage;
+    wireMenuFooter();
+  }
+
+  home();
+})();
+</script>
+</body>
+</html>

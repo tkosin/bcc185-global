@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>สวนเกมตัวเลข 🎈</title>
-<meta name="description" content="รวมเกมฝึกตัวเลขและคณิตศาสตร์สำหรับเด็ก เล่นสนุก เรียนง่าย">
+<title>สวนเกมของหนู 🎈</title>
+<meta name="description" content="รวมเกมฝึกตัวเลข คณิตศาสตร์ และภาษาสำหรับเด็ก เล่นสนุก เรียนง่าย">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Itim&family=Fredoka:wght@500;600;700&family=Mali:wght@500;700&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@
     --ink:#2c2350;
     --card:#ffffff;
     --pink:#ff6b8a; --orange:#ff9a4d; --yellow:#ffcb3d; --green:#4ecb8a;
-    --blue:#3fa9ff; --purple:#a06bff;
+    --blue:#3fa9ff; --purple:#a06bff; --red:#e6373b;
   }
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
   html,body{height:100%;}
@@ -50,7 +50,7 @@
        text-shadow:0 2px 4px rgba(0,0,0,.15);}
 
   .grid{display:grid;grid-template-columns:1fr;gap:22px;}
-  @media (min-width:720px){ .grid{grid-template-columns:repeat(3,1fr);} }
+  @media (min-width:640px){ .grid{grid-template-columns:repeat(auto-fit,minmax(260px,1fr));} }
 
   .game-card{background:var(--card);border-radius:28px;padding:26px 22px 22px;
     box-shadow:0 10px 0 rgba(0,0,0,.08), 0 18px 34px rgba(40,30,80,.18);
@@ -66,6 +66,7 @@
   .game-card.c-spell .ico-wrap{background:radial-gradient(circle at 35% 30%,#ffe9b0,var(--yellow));}
   .game-card.c-train .ico-wrap{background:radial-gradient(circle at 35% 30%,#bdf0ff,var(--blue));}
   .game-card.c-space .ico-wrap{background:radial-gradient(circle at 35% 30%,#e2cfff,var(--purple));}
+  .game-card.c-lantern .ico-wrap{background:radial-gradient(circle at 35% 30%,#ffcdb0,var(--red));}
   .game-card h2{font-family:'Itim',cursive;font-size:1.5rem;}
   .game-card p{font-size:.98rem;color:#6a5f85;line-height:1.5;min-height:2.6em;}
   .play-btn{margin-top:6px;font-family:'Itim',cursive;font-size:1.15rem;color:#fff;
@@ -74,6 +75,7 @@
   .game-card.c-spell .play-btn{background:linear-gradient(180deg,#ffcf6b,var(--orange));box-shadow:0 5px 0 #d9762a;}
   .game-card.c-train .play-btn{background:linear-gradient(180deg,#6fd2ff,var(--blue));box-shadow:0 5px 0 #1f7ec9;}
   .game-card.c-space .play-btn{background:linear-gradient(180deg,#c98bff,var(--purple));box-shadow:0 5px 0 #7d3fc9;}
+  .game-card.c-lantern .play-btn{background:linear-gradient(180deg,#ff8a6e,var(--red));box-shadow:0 5px 0 #a8262a;}
   .game-card:active .play-btn{transform:translateY(3px);}
 
   footer{margin-top:34px;text-align:center;color:#3f5470;font-size:.9rem;
@@ -99,8 +101,8 @@
 
 <div class="wrap">
   <header>
-    <h1>🎪 สวน<span class="em">เกมตัวเลข</span></h1>
-    <div class="sub">เลือกเกมสนุก ๆ แล้วมาฝึกเลขกันเถอะ! ✨</div>
+    <h1>🎪 สวน<span class="em">เกมของหนู</span></h1>
+    <div class="sub">เลือกเกมสนุก ๆ แล้วมาฝึกกันเถอะ! ✨</div>
   </header>
 
   <div class="grid">
@@ -125,6 +127,14 @@
       <div class="ico-wrap">🚀</div>
       <h2>ผจญภัยอวกาศ ตัวเลข</h2>
       <p>บวกดวงดาวหรือต่อแถวดาวเคราะห์ เลือกความยากได้ เล่นคนเดียวหรือผลัดกับพ่อแม่</p>
+      <span class="play-btn">เล่นเลย ▶</span>
+    </a>
+
+    <a class="game-card c-lantern" href="chinese-lantern-game.html">
+      <span class="badge">🏮</span>
+      <div class="ico-wrap">🐼</div>
+      <h2>แพนด้าล่าโคมไฟศัพท์จีน</h2>
+      <p>เรียนคำศัพท์ HSK 1 เปิดโคมสมบัติ จับคู่ความจำ และประลองกับมังกรแบบข้อสอบจริง</p>
       <span class="play-btn">เล่นเลย ▶</span>
     </a>
   </div>
