@@ -1,4 +1,14 @@
-# เกมสะกดเลข 0–10 🎮
+# 🎪 สวนเกมตัวเลข
+
+รวมเกมฝึกตัวเลขและคณิตศาสตร์สำหรับเด็ก — เล่นสนุก เรียนง่าย
+
+🔗 **เข้าเล่นได้เลยที่หน้าหลัก:** [tkosin.github.io/bcc185-global](https://tkosin.github.io/bcc185-global/)
+
+หน้าหลักจะพาไปเลือกเกมทั้งหมด และในทุกเกมจะมีปุ่ม 🏠 (มุมซ้ายบน) สำหรับกลับมาหน้าหลักได้ตลอดเวลา
+
+---
+
+## เกมสะกดเลข 0–10 🎮
 
 เกมฝึกสะกดตัวอักษรสำหรับเด็ก — ลากตัวอักษรเรียงให้ถูกต้องเพื่อสะกดชื่อตัวเลข 0 ถึง 10 ทั้งภาษาไทยและภาษาอังกฤษ
 
@@ -62,12 +72,14 @@
 ```bash
 git clone https://github.com/tkosin/bcc185-global.git
 cd bcc185-global
-open spelling-game.html       # macOS
-open number-train-game.html   # macOS
-open space-adventure-game.html # macOS
+open index.html                 # macOS — หน้าหลัก
+open spelling-game.html         # macOS
+open number-train-game.html     # macOS
+open space-adventure-game.html  # macOS
 # หรือ
-start spelling-game.html       # Windows
-start number-train-game.html   # Windows
+start index.html                # Windows — หน้าหลัก
+start spelling-game.html        # Windows
+start number-train-game.html    # Windows
 start space-adventure-game.html # Windows
 ```
 
