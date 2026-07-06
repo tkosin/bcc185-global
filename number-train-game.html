@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>รถไฟตัวเลข</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Itim&family=Mali:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sky1:#8ed6ff; --sky2:#c9f0ff; --cream:#fff8ec;
+    --sun:#ffcb3d; --tomato:#ff6b5e; --grass:#5fce7a;
+    --grape:#a06bff; --ink:#3a3050; --rail:#6b5a3e;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;}
+  body{
+    font-family:'Mali',sans-serif;color:var(--ink);
+    background:linear-gradient(180deg,var(--sky1) 0%,var(--sky2) 60%,#eafff0 100%);
+    min-height:100dvh;overflow-x:hidden;
+    display:flex;flex-direction:column;align-items:center;
+    padding:16px 14px 28px;user-select:none;
+  }
+  /* rolling hills at the bottom */
+  .hills{position:fixed;left:0;right:0;bottom:0;height:120px;z-index:0;pointer-events:none;}
+  .hills svg{width:100%;height:100%;display:block;}
+
+  .wrap{width:100%;max-width:520px;position:relative;z-index:1;display:flex;flex-direction:column;gap:14px;}
+
+  header{text-align:center;}
+  h1{font-family:'Itim',cursive;font-size:2.1rem;line-height:1.1;color:#fff;
+     text-shadow:0 3px 0 #4ba6d8, 0 5px 8px rgba(0,0,0,.15);}
+  h1 .em{color:var(--sun);text-shadow:0 3px 0 #d99a1e,0 5px 8px rgba(0,0,0,.15);}
+
+  /* score bar */
+  .bar{display:flex;justify-content:center;align-items:center;gap:10px;
+       background:var(--cream);border-radius:22px;padding:8px 16px;
+       box-shadow:0 4px 0 rgba(0,0,0,.08);font-family:'Itim',cursive;font-size:1.25rem;}
+  .bar .stars{letter-spacing:2px;font-size:1.4rem;}
+
+  .card{background:var(--cream);border-radius:28px;padding:22px 18px 26px;
+        box-shadow:0 8px 0 rgba(0,0,0,.10), 0 14px 30px rgba(60,40,90,.12);}
+
+  /* ---------- HOME ---------- */
+  .home-title{font-family:'Itim',cursive;font-size:1.5rem;text-align:center;margin-bottom:6px;}
+  .home-sub{text-align:center;color:#8a7fa3;margin-bottom:18px;font-size:1rem;}
+  .modes{display:flex;flex-direction:column;gap:14px;}
+  .mode-btn{border:none;cursor:pointer;font-family:'Itim',cursive;color:#fff;
+    font-size:1.5rem;border-radius:22px;padding:20px;display:flex;align-items:center;gap:14px;
+    box-shadow:0 6px 0 rgba(0,0,0,.18);transition:transform .08s, box-shadow .08s;}
+  .mode-btn:active{transform:translateY(4px);box-shadow:0 2px 0 rgba(0,0,0,.18);}
+  .mode-btn .ico{font-size:2.2rem;line-height:1;}
+  .mode-add{background:linear-gradient(180deg,#ff8a6e,var(--tomato));}
+  .mode-seq{background:linear-gradient(180deg,#7fd99a,var(--grass));}
+
+  /* ---------- GAME ---------- */
+  .prompt{font-family:'Itim',cursive;text-align:center;font-size:1.3rem;color:#7a6f95;margin-bottom:10px;}
+
+  /* addition: object rows */
+  .add-visual{display:flex;justify-content:center;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+  .grp{background:#fff;border-radius:20px;padding:12px 14px;box-shadow:inset 0 0 0 3px #ffe4b0;
+       display:flex;flex-wrap:wrap;gap:6px;justify-content:center;max-width:150px;}
+  .grp .dot{font-size:1.8rem;line-height:1;}
+  .plus,.eq{font-family:'Itim',cursive;font-size:2.4rem;color:var(--tomato);}
+  .qmark{font-family:'Itim',cursive;font-size:2.8rem;color:var(--grape);
+         background:#fff;border-radius:18px;width:70px;height:70px;display:flex;
+         align-items:center;justify-content:center;box-shadow:inset 0 0 0 3px #e0cbff;}
+
+  .equation{font-family:'Itim',cursive;font-size:2.2rem;text-align:center;margin:6px 0 4px;color:var(--ink);}
+
+  /* train (sequence mode) */
+  .track{position:relative;padding:6px 4px 22px;overflow-x:auto;}
+  .train{display:flex;align-items:flex-end;gap:8px;justify-content:center;min-width:min-content;padding-bottom:6px;}
+  .engine{font-size:2.6rem;line-height:1;filter:drop-shadow(0 3px 2px rgba(0,0,0,.15));}
+  .car{width:62px;height:62px;border-radius:14px;display:flex;align-items:center;justify-content:center;
+       font-family:'Itim',cursive;font-size:1.9rem;color:#fff;flex:0 0 auto;position:relative;
+       box-shadow:0 4px 0 rgba(0,0,0,.18);}
+  .car::after{content:"";position:absolute;bottom:-11px;left:8px;right:8px;height:12px;}
+  .car .wheel{position:absolute;bottom:-9px;width:14px;height:14px;background:#4a4a4a;border-radius:50%;
+              box-shadow:0 0 0 3px #cdb98c;}
+  .car .w1{left:8px;} .car .w2{right:8px;}
+  .c0{background:linear-gradient(180deg,#ff8a6e,var(--tomato));}
+  .c1{background:linear-gradient(180deg,#ffd85e,var(--sun));color:#8a5a00;}
+  .c2{background:linear-gradient(180deg,#7fd99a,var(--grass));}
+  .c3{background:linear-gradient(180deg,#b28cff,var(--grape));}
+  .car.mystery{background:#fff;color:var(--grape);box-shadow:inset 0 0 0 4px #e0cbff,0 4px 0 rgba(0,0,0,.1);
+               animation:wobble 1.2s ease-in-out infinite;}
+  @keyframes wobble{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+  .rail{height:8px;background:repeating-linear-gradient(90deg,var(--rail) 0 14px,#8a744f 14px 22px);
+        border-radius:4px;margin:2px 6px 0;}
+
+  /* answer choices */
+  .choices{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px;}
+  .choice{border:none;cursor:pointer;font-family:'Itim',cursive;font-size:2rem;color:var(--ink);
+    background:#fff;border-radius:20px;padding:18px 0;box-shadow:0 5px 0 #d9cff0, inset 0 0 0 3px #ece3ff;
+    transition:transform .08s, box-shadow .08s;}
+  .choice:active{transform:translateY(3px);box-shadow:0 2px 0 #d9cff0, inset 0 0 0 3px #ece3ff;}
+  .choice.good{background:var(--grass);color:#fff;box-shadow:0 5px 0 #3ba85c;animation:pop .35s;}
+  .choice.bad{background:#ffd0cb;color:var(--tomato);box-shadow:0 5px 0 #e79b93;animation:shake .35s;}
+  @keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.18)}100%{transform:scale(1)}}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+
+  /* feedback */
+  .feedback{text-align:center;font-family:'Itim',cursive;font-size:1.5rem;min-height:2rem;margin-top:14px;}
+  .feedback.win{color:var(--grass);} .feedback.try{color:var(--tomato);}
+
+  .foot{display:flex;justify-content:center;}
+  .home-link{background:none;border:none;cursor:pointer;font-family:'Mali';font-size:1rem;
+             color:#6a5f85;text-decoration:underline;padding:8px 12px;}
+
+  /* confetti */
+  .confetti{position:fixed;top:-10px;width:12px;height:16px;border-radius:3px;z-index:5;pointer-events:none;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important;}
+  }
+  @media (max-width:380px){
+    h1{font-size:1.8rem;} .car,.qmark{width:56px;height:56px;font-size:1.6rem;}
+  }
+</style>
+</head>
+<body>
+<div class="hills" aria-hidden="true">
+  <svg viewBox="0 0 500 120" preserveAspectRatio="none">
+    <path d="M0,120 L0,70 Q90,20 180,60 T380,55 T500,70 L500,120 Z" fill="#7bc86c"/>
+    <path d="M0,120 L0,95 Q120,55 260,90 T500,90 L500,120 Z" fill="#5fb254"/>
+  </svg>
+</div>
+
+<div class="wrap">
+  <header>
+    <h1>🚂 รถไฟ<span class="em">ตัวเลข</span></h1>
+  </header>
+
+  <div class="bar" id="bar" hidden>
+    <span>คะแนน</span>
+    <strong id="score">0</strong>
+    <span class="stars" id="stars"></span>
+  </div>
+
+  <div id="screen"></div>
+</div>
+
+<script>
+(function(){
+  const screen = document.getElementById('screen');
+  const bar = document.getElementById('bar');
+  const scoreEl = document.getElementById('score');
+  const starsEl = document.getElementById('stars');
+
+  let score = 0;
+  let mode = null;
+
+  const emojis = ['🍎','🍊','⭐','🐤','🎈','🍓','🐢','🌸'];
+  const rand = n => Math.floor(Math.random()*n);
+  const pick = a => a[rand(a.length)];
+  const shuffle = a => a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(p=>p[1]);
+
+  /* ---- gentle sounds (Web Audio, no files) ---- */
+  let actx=null;
+  function tone(freq,dur,type='sine',when=0){
+    try{
+      actx = actx || new (window.AudioContext||window.webkitAudioContext)();
+      const o=actx.createOscillator(), g=actx.createGain();
+      o.type=type;o.frequency.value=freq;o.connect(g);g.connect(actx.destination);
+      const t=actx.currentTime+when;
+      g.gain.setValueAtTime(0.0001,t);
+      g.gain.exponentialRampToValueAtTime(0.25,t+0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+      o.start(t);o.stop(t+dur);
+    }catch(e){}
+  }
+  const happy = ()=>{tone(523,0.15);tone(659,0.15,'sine',0.12);tone(784,0.25,'sine',0.24);};
+  const oops  = ()=>{tone(300,0.18,'triangle');};
+
+  function updateScore(){
+    scoreEl.textContent = score;
+    const full = Math.min(5, Math.floor(score/3));
+    starsEl.textContent = '⭐'.repeat(full) + '☆'.repeat(5-full);
+  }
+
+  function confettiBurst(){
+    if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const colors=['#ffcb3d','#ff6b5e','#5fce7a','#a06bff','#8ed6ff'];
+    for(let i=0;i<26;i++){
+      const c=document.createElement('div');
+      c.className='confetti';
+      c.style.left=(Math.random()*100)+'vw';
+      c.style.background=pick(colors);
+      c.style.transform=`rotate(${Math.random()*360}deg)`;
+      document.body.appendChild(c);
+      const dur=1200+Math.random()*900;
+      c.animate([{transform:c.style.transform,top:'-10px',opacity:1},
+                 {top:'100vh',opacity:.9}],{duration:dur,easing:'ease-in'});
+      setTimeout(()=>c.remove(),dur);
+    }
+  }
+
+  /* ================= HOME ================= */
+  function home(){
+    mode=null; bar.hidden=true;
+    screen.innerHTML = `
+      <div class="card">
+        <div class="home-title">มาเล่นกันเถอะ! 🎉</div>
+        <div class="home-sub">เลือกเกมที่อยากเล่น</div>
+        <div class="modes">
+          <button class="mode-btn mode-add" data-go="add">
+            <span class="ico">➕</span><span>บวกเลข</span>
+          </button>
+          <button class="mode-btn mode-seq" data-go="seq">
+            <span class="ico">🚃</span><span>ต่อขบวนรถไฟ</span>
+          </button>
+        </div>
+      </div>`;
+    screen.querySelectorAll('[data-go]').forEach(b=>{
+      b.onclick=()=>{ tone(660,0.1); startMode(b.dataset.go); };
+    });
+  }
+
+  function startMode(m){
+    mode=m; score=0; updateScore(); bar.hidden=false;
+    if(m==='add') addRound(); else seqRound();
+  }
+
+  /* ============== ADDITION ============== */
+  function addRound(){
+    const a = 1 + rand(5);            // 1..5
+    const b = 1 + rand(Math.min(5, 9-a)); // keep sum <= 9 (Grade 1 friendly)
+    const ans = a+b;
+    const em = pick(emojis);
+
+    const opts = new Set([ans]);
+    while(opts.size<3){ let d=ans+(rand(5)-2); if(d>0 && d!==ans) opts.add(d); }
+    const choices = shuffle([...opts]);
+
+    const dots = n => Array.from({length:n},()=>`<span class="dot">${em}</span>`).join('');
+
+    screen.innerHTML = `
+      <div class="card">
+        <div class="prompt">มีทั้งหมดกี่ตัว?</div>
+        <div class="add-visual">
+          <div class="grp">${dots(a)}</div>
+          <span class="plus">+</span>
+          <div class="grp">${dots(b)}</div>
+        </div>
+        <div class="equation">${a} + ${b} = <span style="color:var(--grape)">?</span></div>
+        <div class="choices">
+          ${choices.map(c=>`<button class="choice" data-v="${c}">${c}</button>`).join('')}
+        </div>
+        <div class="feedback" id="fb"></div>
+        <div class="foot"><button class="home-link" id="home">🏠 กลับหน้าแรก</button></div>
+      </div>`;
+    wireChoices(ans, addRound);
+  }
+
+  /* ============== SEQUENCE (SERIES) ============== */
+  function seqRound(){
+    const step = pick([1,1,2,2,5]);          // common difference
+    const start = 1 + rand(4);
+    const len = 5;
+    const full = Array.from({length:len},(_,i)=>start+i*step);
+    const hideIdx = 1 + rand(len-1);         // never hide the first
+    const ans = full[hideIdx];
+
+    const opts = new Set([ans]);
+    while(opts.size<3){ let d=ans+step*(rand(3)-1)+(rand(3)-1); if(d>0 && d!==ans) opts.add(d); }
+    const choices = shuffle([...opts]);
+
+    const cars = full.map((v,i)=>{
+      if(i===hideIdx){
+        return `<div class="car mystery" id="myscar">?</div>`;
+      }
+      return `<div class="car c${i%4}">${v}<span class="wheel w1"></span><span class="wheel w2"></span></div>`;
+    }).join('');
+
+    screen.innerHTML = `
+      <div class="card">
+        <div class="prompt">รถไฟหายไป 1 คัน ใส่เลขอะไรดี? 🤔</div>
+        <div class="track">
+          <div class="train">
+            <span class="engine">🚂</span>${cars}
+          </div>
+          <div class="rail"></div>
+        </div>
+        <div class="choices">
+          ${choices.map(c=>`<button class="choice" data-v="${c}">${c}</button>`).join('')}
+        </div>
+        <div class="feedback" id="fb"></div>
+        <div class="foot"><button class="home-link" id="home">🏠 กลับหน้าแรก</button></div>
+      </div>`;
+    wireChoices(ans, seqRound, (val)=>{
+      const m=document.getElementById('myscar');
+      if(m){ m.classList.remove('mystery'); m.textContent=val;
+             m.innerHTML = val+'<span class="wheel w1"></span><span class="wheel w2"></span>'; }
+    });
+  }
+
+  /* ============== shared answer handling ============== */
+  const cheers = ['เก่งมาก! 🎉','สุดยอด! ⭐','ถูกต้อง! 👏','ยอดเยี่ยม! 🌟'];
+  function wireChoices(ans, next, onRight){
+    const fb = document.getElementById('fb');
+    let done=false;
+    screen.querySelectorAll('.choice').forEach(btn=>{
+      btn.onclick=()=>{
+        if(done) return;
+        const v = parseInt(btn.dataset.v,10);
+        if(v===ans){
+          done=true;
+          btn.classList.add('good');
+          if(onRight) onRight(v);
+          happy(); confettiBurst();
+          score++; updateScore();
+          fb.className='feedback win'; fb.textContent=pick(cheers);
+          setTimeout(next, 1400);
+        } else {
+          btn.classList.add('bad'); oops();
+          fb.className='feedback try'; fb.textContent='ลองอีกครั้งนะ 💪';
+          setTimeout(()=>{btn.classList.remove('bad');fb.textContent='';},700);
+        }
+      };
+    });
+    document.getElementById('home').onclick=home;
+  }
+
+  updateScore();
+  home();
+})();
+</script>
+</body>
+</html>

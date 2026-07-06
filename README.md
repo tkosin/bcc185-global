@@ -6,6 +6,14 @@
 
 ---
 
+## 🚂 รถไฟตัวเลข
+
+เกมฝึกคณิตศาสตร์เบื้องต้นสำหรับเด็ก — เลือกโหมด **บวกเลข** (นับสิ่งของแล้วตอบผลรวม) หรือ **ต่อขบวนรถไฟ** (หาเลขที่หายไปในลำดับ) พร้อมเสียงและคอนเฟตติเมื่อตอบถูก
+
+🔗 **เล่นออนไลน์ได้เลย:** [tkosin.github.io/bcc185-global/number-train-game.html](https://tkosin.github.io/bcc185-global/number-train-game.html)
+
+---
+
 ## วิธีเล่น
 
 1. เลือกโหมดภาษา: ภาษาไทย / English / ทั้งสองภาษา
@@ -46,9 +54,11 @@
 ```bash
 git clone https://github.com/tkosin/bcc185-global.git
 cd bcc185-global
-open spelling-game.html   # macOS
+open spelling-game.html      # macOS
+open number-train-game.html  # macOS
 # หรือ
-start spelling-game.html  # Windows
+start spelling-game.html     # Windows
+start number-train-game.html # Windows
 ```
 
 ---
